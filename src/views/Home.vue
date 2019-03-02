@@ -8,7 +8,8 @@
 		  </el-aside>
 		  <el-container class="header-main">
 		    <el-header>Header</el-header>
-		    <el-main>Main</el-main>
+		    <el-main>
+		    </el-main>
 		  </el-container>
 		</el-container>
   </div>
