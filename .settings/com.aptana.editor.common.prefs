@@ -1,0 +1,5 @@
+com.aptana.editor.common.px2remDecimalLength=2
+com.aptana.editor.common.px2remEnable=true
+com.aptana.editor.common.px2remProportion=16
+eclipse.preferences.version=1
+selectUserAgents=com.aptana.projects.webnature\:Android,Chrome
