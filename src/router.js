@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from '@/views/Home.vue'
-import Navbar from '@/views/Navbar.vue'
+//import Navbar from '@/views/Navbar.vue'
 
 Vue.use(Router)
 

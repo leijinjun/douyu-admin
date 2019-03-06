@@ -1,0 +1,11 @@
+@charset "utf-8";
+
+#navbar .el-scrollbar .el-scrollbar__wrap .el-scrollbar__view{
+	height: 100%;
+}
+#navbar .el-scrollbar .el-scrollbar__wrap{
+	overflow-x: hidden;
+}
+#navbar .el-submenu .el-menu-item{
+	padding-left: 0;
+}
