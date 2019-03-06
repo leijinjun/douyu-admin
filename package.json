@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "element-ui": "^2.5.4",
+    "jquery": "^3.3.1",
     "js-cookie": "^2.2.0",
     "normalize.css": "^8.0.1",
     "vue": "^2.6.6",

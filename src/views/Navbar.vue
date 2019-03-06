@@ -36,12 +36,10 @@
 	.el-menu-vertical-demo{
 	    border: none;
 	    height: 100%;
-	    /*width: 100%!important;*/
-	   width: 100%;
+	    width: 100%;
 	}
 	#navbar .el-menu-vertical-demo.el-menu{
 		background-color: #1D1B14!important;
-		display: inline-block;
    		text-align: left;
 	}
 </style>

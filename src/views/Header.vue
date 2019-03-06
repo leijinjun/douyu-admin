@@ -18,6 +18,7 @@
 </template>
 
 <script>
+	import $ from 'jquery';
 	export default {
 	  name: 'Header',
 	  methods:{
@@ -25,7 +26,8 @@
 	  		alert(command)
 	  	},
 	  	navbarHideOrShow(){
-	  		alert(1)
+	  		alert($)
+	  		$(".home").toggleClass("open-bar");
 	  	}
 	  },
 	}

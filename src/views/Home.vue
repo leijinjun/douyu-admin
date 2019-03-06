@@ -1,5 +1,5 @@
 <template>
-  <div class="home">
+  <div class="home open-bar">
     <el-container>
 		  <el-aside>
 		  	<Navbar/>
@@ -29,26 +29,31 @@ export default {
 </script>
 <style scoped="scoped">
 	.home{
-    position: relative;
+    position: absolute;
     height: 100%;
     width: 100%;
     overflow-y: hidden;
 	}
+	.home.open-bar .el-aside{
+		width: 240px!important;
+	}
+	.home .el-aside{
+		width: 65px!important;
+	}
   .el-aside {
     background-color: #D3DCE6;
     transition: width .28s;
-    width: 240px!important;
-    height: 100%;
     position: fixed;
     font-size: 0;
     top: 0;
     bottom: 0;
     left: 0;
     z-index: 1001;
+    height: 100%;
+    overflow: hidden;
   }
   
   .el-header {
-    /*height: 50px;*/
     box-shadow: 0 1px 3px 0 rgba(0,0,0,.12), 0 0 3px 0 rgba(0,0,0,.04);
   }
   .el-main {
@@ -57,10 +62,13 @@ export default {
     position: relative;
   }
   
-  .header-main{
+  .home.open-bar .header-main{
     min-height: 100%;
     transition: margin-left .28s;
-    margin-left: 240px;
     position: relative;
+    margin-left: 240px;
+  }
+  .home .header-main{
+  	margin-left: 65px;
   }
 </style>
