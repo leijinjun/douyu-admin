@@ -1,7 +1,7 @@
 <template>
 	<div class="admin-header">
-		<div class="hamburger-container" @click="navbarHideOrShow()">
-		 <i class="iconfont">&#xe7c2;</i>
+		<div class="hamburger-container" @click="navbarHideOrShow">
+		 <span class="iconfont icon-liebiaozhanshi"></span>
 		</div>
 		<div class="header-right-menu">
 			<el-dropdown trigger="click" @command="handleUserinfo" class="userinfo">
@@ -18,16 +18,17 @@
 </template>
 
 <script>
-	import $ from 'jquery';
 	export default {
 	  name: 'Header',
 	  methods:{
 	  	handleUserinfo(command){
-	  		alert(command)
+	  		if(command==1){
+	  		}else if(command==2){//登出
+	  		  this.toRoute.toLogin(this.$router);
+	  		}
 	  	},
 	  	navbarHideOrShow(){
-	  		alert($)
-	  		$(".home").toggleClass("open-bar");
+	  		this.$emit("changeClass");
 	  	}
 	  },
 	}
@@ -47,7 +48,7 @@
 	    float: left;
 	}
 	.hamburger-container .iconfont{
-		font-size: 28px;
+		font-size: 20px;
 	}
 	.admin-header .el-dropdown{
 		float: left;

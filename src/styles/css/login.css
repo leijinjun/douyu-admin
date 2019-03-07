@@ -1,0 +1,36 @@
+@charset "utf-8";
+
+.login-container .el-input input {
+    background: transparent;
+    border: 0;
+    -webkit-appearance: none;
+    border-radius: 0;
+	margin-left: 6px;
+    color: #eee;
+    height: 47px;
+    caret-color: #fff;
+}
+.login-container .el-input input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0 1000px #283443 inset!important;
+    -webkit-text-fill-color: #fff!important;
+}
+.login-container .el-input .el-input__prefix{
+	top: 6px;
+	left: 10px;
+}
+.login-container .el-input .el-input__suffix{
+	top: 10px;
+	cursor: pointer;
+}
+.login-container input::-webkit-input-placeholder { /* WebKit, Blink, Edge */
+    color:#E0E0E0;
+}
+.login-container input:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+   color:#e2eeee;
+}
+.login-container input::-moz-placeholder { /* Mozilla Firefox 19+ */
+   color:#e2eeee;
+}
+.login-container input:-ms-input-placeholder { /* Internet Explorer 10-11 */
+   color:#e2eeee;
+}

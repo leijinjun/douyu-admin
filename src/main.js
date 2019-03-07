@@ -18,6 +18,10 @@ import './icon/iconfont.css' // icon
 
 import * as filters from './filters' // global filters
 
+import toRoute from './utils/toRouter.js'
+
+Vue.prototype.toRoute = toRoute
+
 /*Vue.use(Element, {
   size: Cookies.get('size') || 'medium', // set element-ui default size
 })*/

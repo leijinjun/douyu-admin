@@ -1,7 +1,9 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Home from '@/views/Home.vue'
-//import Navbar from '@/views/Navbar.vue'
+import Home from '@/views/home.vue'
+import Main from '@/views/main.vue'
+import Login from '@/components/login.vue'
+import Anchor from '@/components/anchor.vue'
 
 Vue.use(Router)
 
@@ -13,8 +15,23 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'home',
-      component: Home
+      name: 'Home',
+      component: Home,
+      children:[
+      	{
+      		path:'',
+      		component:Main
+      	},
+      	{
+      		path:'/anchor',
+      		component:Anchor
+      	}
+      ]
+    },
+    {
+    	path:'/login',
+    	name:'Login',
+    	component:Login,
     },
     {
       path: '/about',

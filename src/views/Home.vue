@@ -1,14 +1,15 @@
 <template>
-  <div class="home open-bar">
+  <div class="home" v-bind:class="{'open-bar':isOpen}">
     <el-container>
 		  <el-aside>
-		  	<Navbar/>
+		  	<Navbar :collapse="isCollapse"/>
 		  </el-aside>
 		  <el-container class="header-main">
 		    <el-header>
-					<Header/>
+					<Header @changeClass="changeHomeClass"/>
 		    </el-header>
-		    <el-main>
+		    <el-main id="el-main-right">
+		    	<router-view/>
 		    </el-main>
 		  </el-container>
 		</el-container>
@@ -16,15 +17,34 @@
 </template>
 
 <script>
-import Navbar from '@/views/Navbar.vue';
-import Header from '@/views/Header.vue';
+import Navbar from '@/views/navbar.vue';
+import Header from '@/views/header.vue';
 
 export default {
-  name: 'home',
+  name: 'Home',
 	components:{
 		Navbar,
-		Header
-	}
+		Header,
+	},
+	data(){
+		return {
+			isOpen:true,
+			isCollapse:false,
+		}
+	},
+	methods:{
+		changeHomeClass(){
+		  var $this = this;
+			this.isOpen = !this.isOpen;
+			if(this.isOpen){
+				setTimeout(function(){
+					$this.isCollapse = !$this.isCollapse;
+				},300);
+			}else{
+			    $this.isCollapse = !$this.isCollapse;
+			}
+		}
+	},
 }
 </script>
 <style scoped="scoped">
@@ -63,10 +83,10 @@ export default {
   }
   
   .home.open-bar .header-main{
+    margin-left: 240px;
     min-height: 100%;
     transition: margin-left .28s;
     position: relative;
-    margin-left: 240px;
   }
   .home .header-main{
   	margin-left: 65px;

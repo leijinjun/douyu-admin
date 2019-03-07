@@ -1,8 +1,8 @@
 <template>
 	<div id="navbar">
 		<el-scrollbar>
-			<el-menu default-active="1" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose" background-color="#393D49" text-color="#fff" active-text-color="#409eff">
-			 	<el-menu-item index="1">
+			<el-menu :router="true" @open="handleOpen" @close="handleClose" select="selected(index,path)" default-active="1" :collapse="collapse" class="el-menu-vertical-demo" background-color="#393D49" text-color="#fff" active-text-color="#409eff">
+			 	<el-menu-item index="1" route="{path:'/anchor'}">
 			        <i class="el-icon-menu"></i>
 			        <span slot="title">主播管理</span>
 		      	</el-menu-item>
@@ -14,12 +14,19 @@
 <script>
 	export default {
 		name:"Navbar",
+		props:['collapse'],
+		data(){
+			return{
+			}
+		},
 	    methods: {
 	      handleOpen(key, keyPath) {
 	        console.log(key, keyPath);
 	      },
 	      handleClose(key, keyPath) {
 	        console.log(key, keyPath);
+	      },
+	      selected(index,path){
 	      }
 	    }
   	}
