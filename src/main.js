@@ -20,7 +20,10 @@ import * as filters from './filters' // global filters
 
 import toRoute from './utils/toRouter.js'
 
+import $http from './utils/api.js'
+
 Vue.prototype.toRoute = toRoute
+Vue.prototype.$http = $http
 
 /*Vue.use(Element, {
   size: Cookies.get('size') || 'medium', // set element-ui default size

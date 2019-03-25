@@ -1,0 +1,5 @@
+@charset "utf-8";
+
+#networkAnchor-table .el-table__row.connected-row {
+    background: #B4CDCD;
+}

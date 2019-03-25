@@ -3,7 +3,7 @@ import Router from 'vue-router'
 import Home from '@/views/home.vue'
 import Main from '@/views/main.vue'
 import Login from '@/components/login.vue'
-import Anchor from '@/components/anchor.vue'
+import NetworkAnchor from '@/components/networkAnchor.vue'
 
 Vue.use(Router)
 
@@ -23,8 +23,8 @@ export default new Router({
       		component:Main
       	},
       	{
-      		path:'/anchor',
-      		component:Anchor
+      		path:'/networkAnchor',
+      		component:NetworkAnchor
       	}
       ]
     },

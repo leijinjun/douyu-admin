@@ -1,11 +1,14 @@
 import axios from 'axios'
 import { Message } from 'element-ui'
-import store from '@/store'
+//import store from '@/store'
 import { getToken } from '@/utils/auth'
-
+var baseURL = "http://localhost:8882/douyu-admin";
+if(window.location.hostname!="localhost"){
+	baseURL = "https://www.opendanmu.com/douyu-admin";
+}
 // create an axios instance
 const service = axios.create({
-  baseURL: process.env.BASE_API, // api 的 base_url
+  baseURL: baseURL,
   timeout: 5000 // request timeout
 })
 
@@ -13,10 +16,10 @@ const service = axios.create({
 service.interceptors.request.use(
   config => {
     // Do something before request is sent
-    if (store.getters.token) {
-      // 让每个请求携带token-- ['X-Token']为自定义key 请根据实际情况自行修改
-      config.headers['X-Token'] = getToken()
-    }
+//  if (store.getters.token) {
+//    // 让每个请求携带token-- ['X-Token']为自定义key 请根据实际情况自行修改
+//    config.headers['X-Token'] = getToken()
+//  }
     return config
   },
   error => {
@@ -28,7 +31,18 @@ service.interceptors.request.use(
 
 // response interceptor
 service.interceptors.response.use(
-  response => response,
+  response => {
+  	const res = response.data;
+  	if(res.errCode!=0){
+  		Message({
+	      message: res.errMsg,
+	      type: 'error',
+	      duration: 3 * 1000
+	    })
+    	return Promise.reject(response)
+  	}
+  	return response.data;
+  },
   /**
    * 下面的注释为通过在response里，自定义code来标示请求状态
    * 当code返回如下情况则说明权限有问题，登出并返回到登录页
@@ -63,11 +77,11 @@ service.interceptors.response.use(
   //   }
   // },
   error => {
-    console.log('err' + error) // for debug
+    console.log(error) // for debug
     Message({
       message: error.message,
       type: 'error',
-      duration: 5 * 1000
+      duration: 3 * 1000
     })
     return Promise.reject(error)
   }

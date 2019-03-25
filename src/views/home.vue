@@ -8,7 +8,7 @@
 		    <el-header>
 					<Header @changeClass="changeHomeClass"/>
 		    </el-header>
-		    <el-main id="el-main-right">
+		    <el-main>
 		    	<router-view/>
 		    </el-main>
 		  </el-container>
