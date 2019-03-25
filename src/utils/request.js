@@ -3,7 +3,7 @@ import { Message } from 'element-ui'
 //import store from '@/store'
 import { getToken } from '@/utils/auth'
 var baseURL = "http://localhost:8882/douyu-admin";
-if(window.location.hostname!="localhost"){
+if(process.env.NODE_ENV=="production"){
 	baseURL = "https://www.opendanmu.com/douyu-admin";
 }
 // create an axios instance
