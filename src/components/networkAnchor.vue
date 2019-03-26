@@ -3,22 +3,28 @@
     :data="roomList"
     style="width: 100%"
     max-height="650"
+    v-loading="tableLoading"
     :row-class-name="tableRowClassName">
     <el-table-column
       prop="roomId"
       label="房间ID">
     </el-table-column>
-    <el-table-column label="操作">
+    <el-table-column label="操作" sortable="true">
       <template slot-scope="scope">
         <el-button style="font-size:16px;" v-if="!scope.row.connected"
-          @click.native.prevent="connect(scope.row.roomId)"
+          @click.native.prevent="connect(scope.row,scope.$index)"
           type="text"
           size="medium">连接
         </el-button>
         <el-button style="font-size:16px;" v-else
-          @click.native.prevent="disConnect(scope.row.roomId)"
+          @click.native.prevent="disConnect(scope.row,scope.$index)"
           type="text"
           size="medium">断开连接
+        </el-button>
+        <el-button style="font-size:16px;" 
+          @click.native.prevent="goRoomDetail(scope.row.roomId)"
+          type="text"
+          size="medium">查看
         </el-button>
       </template>
     </el-table-column>
@@ -27,6 +33,12 @@
       <template slot-scope="scope">
         <span v-if="scope.row.connected" style="color: #71C671;">已连接</span>
         <span v-else style="color: #CD5555;">未连接</span>
+      </template>
+    </el-table-column>
+    <el-table-column
+      label="热度">
+      <template slot-scope="scope">
+        <span><i class="iconfont icon-redu" style="color:#ee5959;"></i>&nbsp;{{scope.row.hn|numberFormatter}}</span>
       </template>
     </el-table-column>
     <el-table-column
@@ -49,29 +61,23 @@
 </template>
 
 <script>
+import * as $util from '@/utils/index.js'
 export default {
+  
   name:'NetworkAnchor',
   data(){
     return{
-		changeFlag:true,
-		roomId:null,
-		cates:[],
-		keyword:null,
-		selectedCate:null,
 		roomList:[],
-		roomConnecting:{},
+		tableLoading:false,
 	}
   },
-  created(){
-		/*var connected=this.$route.query.connected;
-		if(connected===undefined){
-			this.changeFlag=true;
-			this.getRoomList();
-		}else{
-			this.changeFlag=false;
-			this.getCacheRoomList();
-		}
-		this.getCates();*/
+  filters:{
+  	numberFormatter:function(value){
+  		return $util.numTransform(value);
+  	}
+  },
+   created(){
+		this.$set(this,'tableLoading',true)
 		this.getRoomList();
 	},
 	methods:{
@@ -83,83 +89,39 @@ export default {
         },
 		getRoomList(){
 			const $this=this;
-			this.$http.getRoomList({limit:100}).then(function(response){
-				$this.$set($this,'roomList',response.body);
+			this.$http.getRoomList({limit:100}).then(function(data){
+				$this.$set($this,'tableLoading',false)
+				$this.$set($this,'roomList',data.body);
 			});
 		},
-		getCacheRoomList(){
+		connect(row,index){
+			var room=row.roomId;
 			var $this=this;
-			this.$http.get('/room/info/logged')
-				.then((response)=>{
-					var res=response.data;
-					$this.roomList=res.body;
-				})
-		},
-		connect(room){
-			var $this=this;
-			this.$set(this.roomConnecting,room,true)
-			this.$http.connect(room).then(response=>{
-				$this.$set($this.roomConnecting,room,false)
+			this.$set(this,'tableLoading',true)
+			this.$http.connect(room).then(data=>{
+				$this.$set($this,'tableLoading',false);
+				var connected=true;
+				row.connected = connected;
+				$this.$set($this.roomList,index,row);
 			});
 		},
-		disConnect(room){
+		disConnect(row,index){
+			var room=row.roomId;
 			var $this=this;
-			this.$set(this.roomConnecting,room,true)
-			var params=new URLSearchParams();
-			params.append("room",room);
-			this.$http.post('/room/client/logout',params)
-				.then((response)=>{
-					this.$set(this.roomConnecting,room,false)
-					var res=response.data;
-					$this.changeRoomList();
-				})
-				.catch((error)=>{
-					this.$set(this.roomConnecting,room,false)
-					$this.$message.error("连接错误");
-				});
+			this.$set(this,'tableLoading',true)
+			this.$http.disConnect(room).then((data)=>{
+				$this.$set($this,'tableLoading',false);
+				var connected=false;
+				row.connected = connected;
+				$this.$set($this.roomList,index,row);
+			});
 		},
-		changeRoomListFlag(){
-			var flag=this.changeFlag;
-			this.changeFlag=!flag;
-			this.changeRoomList();
+		goRoomDetail(roomId){
+			window.open(`https://opendanmu.com/room/${roomId}`);
 		},
-		changeRoomList(){
-			if(!this.changeFlag){
-				this.getCacheRoomList();
-			}else{
-				this.getRoomList();
-			}
+		sortWithConnected(a,b){
+			return 1;
 		},
-		cateChange(){
-			if(this.selectedCate==null){
-				return;
-			}
-			this.getRoomList();
-		},
-		getCates(){
-			var $this=this;
-			this.$http.get('/room/info/cates')
-				.then((response)=>{
-					var res=response.data;
-					if(res.code==200){
-						$this.cates=res.body;
-					}
-				})
-		},
-		searchRoom(){
-			var room=this.keyword;
-			if(room==null||room==''){
-				return;
-			}
-			var $this=this;
-			this.$http.get(`/room/info/detail/${room}`)
-				.then((response=>{
-					var res=response.data;
-					var arr=new Array();
-					arr.push(res.body.room);
-					$this.roomList=arr;
-				}));
-		}
 	},
 	mounted () {
 	}

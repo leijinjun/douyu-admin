@@ -5,5 +5,10 @@ export default {
 	},
 	connect(roomId){
 		return $request.post(`/room/client/login/${roomId}`);
+	},
+	disConnect(roomId){
+		var params=new URLSearchParams();
+		params.append("room",roomId);
+		return $request.post('/room/client/logout',params);
 	}
 }
