@@ -2,9 +2,9 @@ import axios from 'axios'
 import { Message } from 'element-ui'
 //import store from '@/store'
 import { getToken } from '@/utils/auth'
-var baseURL = "http://localhost:8882/douyu-admin";
+var baseURL = "http://localhost:8882/admin";
 if(process.env.NODE_ENV=="production"){
-	baseURL = "https://www.opendanmu.com/douyu-admin";
+	baseURL = "https://www.opendanmu.com/admin";
 }
 // create an axios instance
 const service = axios.create({

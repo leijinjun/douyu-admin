@@ -1,19 +1,15 @@
 <template>
 	<div>
-		<el-form :inline="true" :model="selectForm" class="demo-form-inline" style="font-size: 26px;">
-		  <el-form-item label="房间Id">
-		    <el-input v-model="selectForm.roomId" placeholder="房间Id"></el-input>
-		  </el-form-item>
-		  <el-form-item label="房间名称">
-		  	<el-input v-model="selectForm.roomName" placeholder="房间名称"></el-input>
-		  </el-form-item>
-		  <el-form-item label="主播昵称">
-		  	<el-input v-model="selectForm.nickname" placeholder="主播昵称"></el-input>
-		  </el-form-item>
-		  <el-form-item>
-		    <el-button type="primary" @click="sumbitSelect">查询</el-button>
-		  </el-form-item>
-		</el-form>
+		<div class="search-header">
+			<el-select v-model="selectedCate" clearable filterable placeholder="请选择分类" @change="cateChange()">
+			    <el-option
+			      v-for="item in cates"
+			      :key="item.cateId"
+			      :label="item.cateName"
+			      :value="item.cateId">
+			    </el-option>
+		    </el-select>
+		</div>
 		<el-table id="networkAnchor-table"
 		    :data="roomList"
 		    style="width: 100%"
@@ -85,11 +81,8 @@ export default {
     return{
 		roomList:[],
 		tableLoading:false,
-		selectForm:{
-			roomId:null,
-			roomName:null,
-			nickname:null,
-		}
+		cates:[],
+		selectedCate:null,
 	}
   },
   filters:{
@@ -100,6 +93,7 @@ export default {
    created(){
 		this.$set(this,'tableLoading',true)
 		this.getRoomList();
+		this.getCates();
 	},
 	methods:{
 		tableRowClassName({row, rowIndex}) {
@@ -108,9 +102,9 @@ export default {
 			}
 	        return '';
         },
-		getRoomList(){
+		getRoomList(cate){
 			const $this=this;
-			this.$http.getRoomList({limit:100}).then(function(data){
+			this.$http.getRoomList({limit:100,cate:cate}).then(function(data){
 				$this.$set($this,'tableLoading',false)
 				$this.$set($this,'roomList',data.body);
 			});
@@ -148,9 +142,19 @@ export default {
 		sortWithHn(a,b){
 			return a.hn-b.hn;
 		},
-		sumbitSelect(){
-			
-		}
+		cateChange(){
+			if(this.selectedCate==null){
+				return;
+			}
+			this.getRoomList(this.selectedCate);
+		},
+		getCates(){
+			var $this=this;
+			this.$http.getAllRoomCates()
+			.then((data)=>{
+				$this.cates=data.body;
+			})
+		},
 	},
 	mounted () {
 	}
@@ -160,5 +164,9 @@ export default {
 @import url("../styles/css/networkAnchor.css");
   #networkAnchor-table{
   	font-size: 16px;
+  }
+  .search-header{
+  	margin-bottom: 15px;
+  	float: left;
   }
 </style>

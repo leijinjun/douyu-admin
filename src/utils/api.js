@@ -10,5 +10,8 @@ export default {
 		var params=new URLSearchParams();
 		params.append("room",roomId);
 		return $request.post('/room/client/logout',params);
+	},
+	getAllRoomCates(){
+		return $request.get('/room/info/cates');
 	}
 }

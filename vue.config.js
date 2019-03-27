@@ -1,5 +1,5 @@
 module.exports = {
-	publicPath:'/admin',
+	publicPath:'/',
 	outputDir:'dist',
 	devServer:{
 		compress: true,
