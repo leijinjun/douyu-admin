@@ -14,8 +14,7 @@
 		    :data="roomList"
 		    style="width: 100%"
 		    max-height="650"
-		    v-loading="tableLoading"
-		    :row-class-name="tableRowClassName">
+		    v-loading="tableLoading">
 		    <el-table-column
 		      prop="roomId"
 		      label="房间ID">
@@ -34,7 +33,7 @@
 		        <el-button style="font-size:16px;" v-else
 		          @click.native.prevent="disConnect(scope.row,scope.$index)"
 		          type="text"
-		          size="medium">断开连接
+		          size="medium">断开
 		        </el-button>
 		        <el-button style="font-size:16px;" 
 		          @click.native.prevent="goRoomDetail(scope.row.roomId)"
@@ -47,7 +46,7 @@
 		      label="连接状态">
 		      <template slot-scope="scope">
 		        <span v-if="scope.row.connected" style="color: #71C671;">已连接</span>
-		        <span v-else style="color: #CD5555;">未连接</span>
+		        <span v-else style="color: rgb(250, 121, 121);">未连接</span>
 		      </template>
 		    </el-table-column>
 		    <el-table-column
@@ -96,12 +95,6 @@ export default {
 		this.getCates();
 	},
 	methods:{
-		tableRowClassName({row, rowIndex}) {
-			if(row.connected){
-				return 'connected-row';
-			}
-	        return '';
-        },
 		getRoomList(cate){
 			const $this=this;
 			this.$http.getRoomList({limit:100,cate:cate}).then(function(data){

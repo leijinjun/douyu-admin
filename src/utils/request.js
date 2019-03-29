@@ -40,7 +40,7 @@ service.interceptors.response.use(
 	      duration: 3 * 1000
 	    })
   	}
-  	return response.data;
+  	return res;
   },
   /**
    * 下面的注释为通过在response里，自定义code来标示请求状态
