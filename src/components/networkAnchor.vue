@@ -20,6 +20,10 @@
 		      prop="roomId"
 		      label="房间ID">
 		    </el-table-column>
+				<el-table-column
+		      prop="nickname"
+		      label="主播昵称">
+		    </el-table-column>
 		    <el-table-column label="操作" :sortable="true" :sort-method="sortWithConnected">
 		      <template slot-scope="scope">
 		        <el-button style="font-size:16px;" v-if="!scope.row.connected"
@@ -55,10 +59,6 @@
 		    <el-table-column
 		      prop="roomName"
 		      label="房间名称">
-		    </el-table-column>
-		    <el-table-column
-		      prop="nickname"
-		      label="主播昵称">
 		    </el-table-column>
 		    <el-table-column
 		      label="房间缩略图">
