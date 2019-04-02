@@ -3,8 +3,9 @@ import Router from 'vue-router'
 import Home from '@/views/home.vue'
 import Main from '@/views/main.vue'
 import Login from '@/components/login.vue'
-import NetworkAnchor from '@/components/networkAnchor.vue'
+import Liver from '@/components/liver.vue'
 import Test from '@/components/test.vue'
+import LiverLogged from '@/components/liverLogged'
 
 Vue.use(Router)
 
@@ -24,8 +25,12 @@ export default new Router({
       		component:Main
       	},
       	{
-      		path:'/networkAnchor',
-      		component:NetworkAnchor
+      		path:'/liver',
+      		component:Liver
+        },
+        {
+      		path:'/liver/logged',
+      		component:LiverLogged
       	},
       	{
       		path:'/test',

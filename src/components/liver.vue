@@ -75,7 +75,7 @@
 import * as $util from '@/utils/index.js'
 export default {
   
-  name:'NetworkAnchor',
+  name:'Liver',
   data(){
     return{
 		roomList:[],

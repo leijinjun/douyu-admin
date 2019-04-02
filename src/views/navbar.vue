@@ -6,9 +6,13 @@
 			        <i class="el-icon-menu"></i>
 			        <span slot="title">首页</span>
 		      	</el-menu-item>
-		      	<el-menu-item index="2" route="networkAnchor">
+		      	<el-menu-item index="2" route="/liver">
 			        <i class="iconfont icon-qun" style="font-size: 29px;"></i>
 			        <span slot="title">主播管理</span>
+		      	</el-menu-item>
+						<el-menu-item index="3" route="/liver/logged">
+			        <i class="iconfont icon-qun" style="font-size: 29px;"></i>
+			        <span slot="title">已连接主播</span>
 		      	</el-menu-item>
 			</el-menu>
 		</el-scrollbar>

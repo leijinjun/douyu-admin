@@ -13,5 +13,8 @@ export default {
 	},
 	getAllRoomCates(){
 		return $request.get('/room/info/cates');
+	},
+	getAllRoomLogged(){
+		return $request.get('/room/info/logged');
 	}
 }
