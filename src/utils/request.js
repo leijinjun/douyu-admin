@@ -9,7 +9,7 @@ if(process.env.NODE_ENV=="production"){
 // create an axios instance
 const service = axios.create({
   baseURL: baseURL,
-  timeout: 5000 // request timeout
+  timeout: 1000*90 // request timeout
 })
 
 // request interceptor
