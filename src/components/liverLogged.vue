@@ -1,7 +1,7 @@
 <template>
     <div>
         <el-table id="liver-logged-table"
-		    :data="liverLoggedTable"
+		    :data="pager.liverLoggedTable"
 		    style="width: 100%"
 		    max-height="650"
 		    v-loading="tableLoading">
@@ -16,7 +16,16 @@
 		    <el-table-column
 		      label="连接状态">
 		      <template slot-scope="scope">
-		        <span style="color: #71C671;cursor: pointer;" @click="disConnect(scope.row.roomId)">断开</span>
+						<el-button style="font-size:16px;" 
+		          @click.native.prevent="disConnect(scope.row.roomId)"
+		          type="text"
+		          size="medium">断开
+		        </el-button>
+		        <el-button style="font-size:16px;" 
+		          @click.native.prevent="goRoomDetail(scope.row.roomId)"
+		          type="text"
+		          size="medium">查看
+		        </el-button>
 		      </template>
 		    </el-table-column>
 		    <el-table-column
@@ -38,6 +47,17 @@
 		      </template>
 		    </el-table-column>
 		</el-table>
+		<div class="block">
+			<el-pagination
+				@size-change="handleSizeChange"
+				@current-change="handleCurrentChange"
+				:current-page="pager.currentPage"
+				:page-sizes="[10, 15, 20, 30,100]"
+				:page-size="pager.pageSize"
+				layout="total, sizes, prev, pager, next, jumper"
+				:total="pager.total">
+			</el-pagination>
+		</div>
     </div>
 </template>
 
@@ -47,7 +67,12 @@ export default {
     name:'LiverLogged',
     data(){
         return{
-            liverLoggedTable:[],
+            pager:{
+							liverLoggedTable:[],
+							currentPage:1,
+							pageSize:10,
+							total:0
+						},
             tableLoading:false,
         }
     },
@@ -57,25 +82,39 @@ export default {
         }
     },
     created(){
-        this.getRoomLogged();
+				this.getRoomLogged(this.pager.currentPage,this.pager.pageSize);
     },
     methods:{
-        getRoomLogged(){
+        getRoomLogged(currPage,pageSize){
             const $this=this;
-            this.$set(this,'tableLoading',true);
-			this.$http.getAllRoomLogged().then(function(data){
-				$this.$set($this,'tableLoading',false)
-				$this.$set($this,'liverLoggedTable',data.body);
-			});
+						this.$set(this,'tableLoading',true);
+						var params = new URLSearchParams();
+						params.append("pn",currPage);
+						params.append("ps",pageSize);
+						this.$http.getAllRoomLogged(params).then(function(data){
+							$this.$set($this,'tableLoading',false)
+							$this.$set($this.pager,'liverLoggedTable',data.body.items);
+							$this.$set($this.pager,'pageSize',data.body.limit);
+							$this.$set($this.pager,'total',data.body.total);
+						});
         },
         disConnect(roomId){
-			var $this=this;
-			this.$set(this,'tableLoading',true)
-			this.$http.disConnect(roomId).then((data)=>{
-				$this.$set($this,'tableLoading',false);
-				$this.getRoomLogged();
-			});
-        },
+						var $this=this;
+						this.$set(this,'tableLoading',true)
+						this.$http.disConnect(roomId).then((data)=>{
+							$this.$set($this,'tableLoading',false);
+							$this.getRoomLogged($this.pager.currentPage,$this.pager.pageSize);
+						});
+				},
+				handleSizeChange(pageSize) {
+					this.getRoomLogged(this.pager.currentPage,pageSize);
+				},
+				handleCurrentChange(currentPage) {
+					this.getRoomLogged(currentPage,this.pager.pageSize);
+				},
+				goRoomDetail(roomId){
+					window.open(`https://opendanmu.com/room/${roomId}`);
+				},
     }
 }
 </script>

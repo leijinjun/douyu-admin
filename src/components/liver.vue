@@ -1,14 +1,23 @@
 <template>
 	<div>
 		<div class="search-header">
-			<el-select v-model="selectedCate" clearable filterable placeholder="请选择分类" @change="cateChange()">
-			    <el-option
-			      v-for="item in cates"
-			      :key="item.cateId"
-			      :label="item.cateName"
-			      :value="item.cateId">
-			    </el-option>
-		    </el-select>
+			  <el-form :inline="true" :model="searchForm" class="demo-form-inline">
+					<el-form-item label="分类">
+						<el-select v-model="searchForm.selectedCate" clearable filterable placeholder="请选择分类" @change="cateChange()">
+							<el-option
+								v-for="item in cates"
+								:key="item.cateId"
+								:label="item.cateName"
+								:value="item.cateId">
+							</el-option>
+						</el-select>
+					</el-form-item>
+					<el-form-item label="关键字">
+						<el-input placeholder="房间名或房间号" v-model="searchForm.roomKeyword" class="input-with-select">
+							<el-button slot="append" icon="el-icon-search" @click="searchRoom()"></el-button>
+						</el-input>
+					</el-form-item>
+				</el-form>
 		</div>
 		<el-table id="networkAnchor-table"
 		    :data="roomList"
@@ -81,7 +90,10 @@ export default {
 		roomList:[],
 		tableLoading:false,
 		cates:[],
-		selectedCate:null,
+		searchForm:{
+			selectedCate:null,
+			roomKeyword:null
+		}
 	}
   },
   filters:{
@@ -98,8 +110,10 @@ export default {
 		getRoomList(cate){
 			const $this=this;
 			this.$http.getRoomList({limit:100,cate:cate}).then(function(data){
-				$this.$set($this,'tableLoading',false)
 				$this.$set($this,'roomList',data.body);
+			}).catch(function (error) {
+			}).then(function () {
+				$this.$set($this,'tableLoading',false)
 			});
 		},
 		connect(row,index){
@@ -107,10 +121,12 @@ export default {
 			var $this=this;
 			this.$set(this,'tableLoading',true)
 			this.$http.connect(room).then(data=>{
-				$this.$set($this,'tableLoading',false);
 				var connected=true;
 				row.connected = connected;
 				$this.$set($this.roomList,index,row);
+			}).catch(function(error){
+			}).then(function(){
+				$this.$set($this,'tableLoading',false);
 			});
 		},
 		disConnect(row,index){
@@ -136,10 +152,11 @@ export default {
 			return a.hn-b.hn;
 		},
 		cateChange(){
-			if(this.selectedCate==null){
+			if(!this.searchForm.selectedCate){
 				return;
 			}
-			this.getRoomList(this.selectedCate);
+			this.$set(this,'tableLoading',true);
+			this.getRoomList(this.searchForm.selectedCate);
 		},
 		getCates(){
 			var $this=this;
@@ -147,6 +164,15 @@ export default {
 			.then((data)=>{
 				$this.cates=data.body;
 			})
+		},
+		searchRoom(){
+			const $this=this;
+			this.$http.getRoomList({keyword:this.searchForm.roomKeyword}).then(function(data){
+				$this.$set($this,'roomList',data.body);
+			}).catch(function (error) {
+			}).then(function () {
+				$this.$set($this,'tableLoading',false)
+			});
 		},
 	},
 	mounted () {
