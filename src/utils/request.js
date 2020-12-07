@@ -4,7 +4,7 @@ import { Message } from 'element-ui'
 import { getToken } from '@/utils/auth'
 var baseURL = "http://localhost:8882/admin";
 if(process.env.NODE_ENV=="production"){
-	baseURL = "https://admin.opendanmu.com:442/admin";
+	baseURL = "https://admin.lei2j.com/admin";
 }
 // create an axios instance
 const service = axios.create({

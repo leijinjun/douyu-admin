@@ -141,7 +141,7 @@ export default {
 			});
 		},
 		goRoomDetail(roomId){
-			window.open(`https://opendanmu.com:442/room/${roomId}`);
+			window.open(`https://danmu.lei2j.com/room/${roomId}`);
 		},
 		sortWithConnected(a,b){
 			var a1=a.connected?1:0;

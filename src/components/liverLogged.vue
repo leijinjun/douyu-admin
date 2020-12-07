@@ -113,7 +113,7 @@ export default {
 					this.getRoomLogged(currentPage,this.pager.pageSize);
 				},
 				goRoomDetail(roomId){
-					window.open(`https://opendanmu.com/room/${roomId}`);
+					window.open(`https://danmu.lei2j.com/room/${roomId}`);
 				},
     }
 }
